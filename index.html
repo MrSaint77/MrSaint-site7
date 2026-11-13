@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MrSaint | Помощник для госслужащих Majestic RP</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', 'Inter', system-ui, sans-serif; }
+        :root { --bg: #0e0e0e; --bg-card: #1a1a1a; --bg-card-hover: #222; --text: #ffffff; --text-muted: #b9b9c0; --accent: #e81c5a; --accent-hover: #ff4d7d; --border: #2e2e2e; }
+        body { background-color: var(--bg); color: var(--text); line-height: 1.6; overflow-x: hidden; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        .accent { color: var(--accent); }
+        
+        /* Хедер */
+        .header { position: fixed; top: 0; width: 100%; background: rgba(14, 14, 14, 0.95); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); z-index: 1000; height: 70px; display: flex; align-items: center; }
+        .header-content { display: flex; justify-content: space-between; align-items: center; width: 100%; }
+        .logo { display: flex; align-items: center; gap: 10px; font-size: 24px; font-weight: 800; color: #fff; text-decoration: none; letter-spacing: -0.5px; }
+        .logo-mark { background: var(--accent); color: #fff; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; border-radius: 8px; font-size: 18px; font-weight: 900; }
+        .nav { display: flex; gap: 30px; align-items: center; }
+        .nav a { color: var(--text-muted); text-decoration: none; font-weight: 500; transition: color 0.2s; }
+        .nav a:hover { color: #fff; }
+        .btn-nav { background: var(--accent); color: #fff !important; padding: 10px 24px; border-radius: 30px; font-weight: 600; transition: background 0.2s, transform 0.1s; }
+        .btn-nav:hover { background: var(--accent-hover); transform: scale(1.02); }
+        .mobile-menu-btn { display: none; font-size: 24px; cursor: pointer; }
+        
+        /* Hero */
+        .hero { min-height: 100vh; display: flex; align-items: center; padding-top: 70px; background: radial-gradient(circle at 80% 20%, rgba(232, 28, 90, 0.1) 0%, transparent 40%); }
+        .hero-content { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center; }
+        .badge { display: inline-block; background: rgba(232, 28, 90, 0.15); color: var(--accent); padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 700; letter-spacing: 1px; margin-bottom: 20px; border: 1px solid rgba(232, 28, 90, 0.3); }
+        .hero-text h1 { font-size: 56px; font-weight: 900; line-height: 1.1; letter-spacing: -1.5px; margin-bottom: 20px; }
+        .hero-text p { color: var(--text-muted); font-size: 18px; max-width: 500px; margin-bottom: 30px; }
+        .hero-buttons { display: flex; gap: 15px; flex-wrap: wrap; }
+        .btn { display: inline-block; padding: 14px 32px; border-radius: 30px; font-weight: 700; text-decoration: none; transition: all 0.2s; cursor: pointer; border: 2px solid transparent; }
+        .btn-primary { background: var(--accent); color: #fff; }
+        .btn-primary:hover { background: var(--accent-hover); box-shadow: 0 0 20px rgba(232, 28, 90, 0.4); }
+        .btn-outline { background: transparent; color: #fff; border-color: var(--border); }
+        .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+        .hero-visual { display: flex; justify-content: center; align-items: center; position: relative; }
+        .card-glow { position: relative; background: linear-gradient(145deg, #1a1a1a, #0e0e0e); border: 1px solid var(--border); border-radius: 24px; padding: 30px; width: 100%; max-width: 400px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); transform: rotate(2deg); transition: transform 0.3s; }
+17:10
+.card-glow:hover { transform: rotate(0deg) scale(1.02); border-color: var(--accent); box-shadow: 0 0 40px rgba(232, 28, 90, 0.15); }
+        .mock-ui { background: #000; border-radius: 12px; padding: 20px; border: 1px solid #333; }
+        .mock-header { color: #fff; font-weight: 700; font-size: 14px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; }
+        .mock-line { height: 8px; background: #222; border-radius: 4px; margin-bottom: 10px; width: 100%; }
+        .mock-line.short { width: 60%; }
+        .mock-badge { display: inline-block; background: var(--accent); color: #fff; font-size: 10px; font-weight: 800; padding: 4px 8px; border-radius: 4px; margin-top: 10px; }
+        
+        /* Секции */
+        .section { padding: 100px 0; }
+        .section-dark { background: #0a0a0a; }
+        .section-title { font-size: 36px; font-weight: 800; margin-bottom: 50px; letter-spacing: -1px; }
+        .about-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+        .about-card { background: var(--bg-card); padding: 40px 30px; border-radius: 20px; border: 1px solid var(--border); transition: border-color 0.3s, transform 0.2s; }
+        .about-card:hover { border-color: var(--accent); transform: translateY(-5px); }
+        .about-card i { font-size: 32px; color: var(--accent); margin-bottom: 20px; }
+        .about-card h3 { font-size: 20px; margin-bottom: 12px; }
+        .about-card p { color: var(--text-muted); font-size: 15px; }
+        
+        /* Возможности */
+        .features-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 25px; }
+        .feature-item { background: var(--bg-card); padding: 30px; border-radius: 16px; border: 1px solid var(--border); transition: all 0.3s; }
+        .feature-item:hover { background: var(--bg-card-hover); border-color: rgba(232, 28, 90, 0.4); }
+        .feature-icon { font-size: 24px; color: var(--accent); margin-bottom: 15px; }
+        .feature-item h4 { font-size: 18px; margin-bottom: 10px; }
+        .feature-item p { color: var(--text-muted); font-size: 14px; }
+        
+        /* Дисклеймер */
+        .disclaimer-box { display: flex; gap: 25px; background: rgba(232, 28, 90, 0.05); border: 1px solid rgba(232, 28, 90, 0.3); border-radius: 20px; padding: 40px; align-items: flex-start; }
+        .disclaimer-box i { font-size: 40px; color: var(--accent); }
+        .disclaimer-box h3 { margin-bottom: 10px; font-size: 24px; }
+        .disclaimer-box p { color: var(--text-muted); font-size: 16px; }
+        
+        /* Контакты */
+        .contact-content { text-align: center; }
+        .contact-content h2 { font-size: 36px; margin-bottom: 15px; }
+        .contact-content p { color: var(--text-muted); margin-bottom: 30px; }
+        .social-links { display: flex; justify-content: center; gap: 20px; margin-bottom: 40px; flex-wrap: wrap; }
+        .social-links a { display: inline-flex; align-items: center; gap: 8px; color: #fff; text-decoration: none; background: var(--bg-card); padding: 12px 28px; border-radius: 30px; border: 1px solid var(--border); transition: all 0.2s; font-weight: 600; }
+        .social-links a:hover { background: var(--accent); border-color: var(--accent); }
+        .copyright { font-size: 13px; color: #666; margin-top: 20px; }
+        
+        /* Адаптив */
+        @media (max-width: 992px) {
+            .hero-content { grid-template-columns: 1fr; text-align: center; gap: 30px; }
+            .hero-text p { margin-left: auto; margin-right: auto; }
+            .hero-buttons { justify-content: center; }
+            .about-grid { grid-template-columns: 1fr; }
+            .features-grid { grid-template-columns: 1fr 1fr; }
+            .hero-text h1 { font-size: 42px; }
+        }
+        @media (max-width: 768px) {
+            .nav { display: none; }
+            .mobile-menu-btn { display: block; }
+            .features-grid { grid-template-columns: 1fr; }
+17:10
+.disclaimer-box { flex-direction: column; padding: 30px; gap: 15px; }
+            .hero-text h1 { font-size: 32px; }
+            .section { padding: 60px 0; }
+            .section-title { font-size: 28px; }
+            .nav.active { display: flex; position: absolute; top: 70px; left: 0; width: 100%; background: #0e0e0e; flex-direction: column; padding: 20px; border-bottom: 1px solid var(--border); }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="container header-content">
+            <a href="#" class="logo">
+                <span class="logo-mark">MS</span>
+                MrSaint
+            </a>
+            <nav class="nav" id="mainNav">
+                <a href="#about">О нас</a>
+                <a href="#features">Возможности</a>
+                <a href="#disclaimer">Дисклеймер</a>
+                <a href="#contact" class="btn-nav">Связаться</a>
+            </nav>
+            <div class="mobile-menu-btn" onclick="toggleMenu()">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container hero-content">
+            <div class="hero-text">
+                <div class="badge">Независимая команда</div>
+                <h1>Помощник для <span class="accent">госслужащих</span> Majestic RP</h1>
+                <p>Мы не являемся разработчиками Majestic. Мы — отдельная команда энтузиастов, создающая удобные инструменты и гайды для сотрудников государственных структур.</p>
+                <div class="hero-buttons">
+                    <a href="#features" class="btn btn-primary">Узнать больше</a>
+                    <a href="#disclaimer" class="btn btn-outline">Важно знать</a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="card-glow">
+                    <div class="mock-ui">
+                        <div class="mock-header">MrSaint Assistant</div>
+                        <div class="mock-line"></div>
+                        <div class="mock-line short"></div>
+                        <div class="mock-badge">ГОС</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="section">
+        <div class="container">
+            <h2 class="section-title">Кто мы <span class="accent">такие</span></h2>
+            <div class="about-grid">
+                <div class="about-card">
+                    <i class="fas fa-users"></i>
+                    <h3>Отдельная команда</h3>
+                    <p>MrSaint — это независимый проект. Мы не связаны с администрацией или разработчиками Majestic RP. Мы просто играем и хотим сделать службу комфортнее.</p>
+                </div>
+                <div class="about-card">
+                    <i class="fas fa-shield-alt"></i>
+                    <h3>Фокус на госструктуры</h3>
+                    <p>Наши материалы заточены под Мэрию, Правительство, Полицию и другие ведомства: от повышений до правил RP.</p>
+                </div>
+                <div class="about-card">
+                    <i class="fas fa-code"></i>
+                    <h3>Инструменты и гайды</h3>
+                    <p>Мы собираем полезные памятки, чек-листы и вспомогательные сервисы, чтобы вы тратили меньше времени на рутину.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="features" class="section section-dark">
+        <div class="container">
+            <h2 class="section-title">Что мы <span class="accent">предлагаем</span></h2>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <div class="feature-icon"><i class="fas fa-book"></i></div>
+                    <h4>База знаний</h4>
+                    <p>Сводка законов, правил повышения и регламентов для быстрого доступа.</p>
+                </div>
+                <div class="feature-item">
+17:10
+<div class="feature-icon"><i class="fas fa-clipboard-check"></i></div>
+                    <h4>Чек-листы</h4>
+                    <p>Готовые списки действий для повышения, отчётов и RP-ситуаций.</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon"><i class="fas fa-tools"></i></div>
+                    <h4>Вспомогательные сервисы</h4>
+                    <p>Инструменты для упрощения работы с документами и отчётностью (в разработке).</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon"><i class="fas fa-comments"></i></div>
+                    <h4>Сообщество</h4>
+                    <p>Обмен опытом между игроками госструктур и обратная связь по инструментам.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="disclaimer" class="section">
+        <div class="container">
+            <div class="disclaimer-box">
+                <i class="fas fa-exclamation-triangle"></i>
+                <div>
+                    <h3>Важное уведомление</h3>
+                    <p>Сайт <strong>MrSaint</strong> является неофициальным фанатским проектом. Мы не являемся разработчиками, партнёрами или представителями игры <strong>Majestic RP</strong>. Все упоминания игры, её механик и терминов используются исключительно в информационных целях. Администрация Majestic RP не несёт ответственности за содержание данного сайта.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="section section-dark">
+        <div class="container contact-content">
+            <h2>На связи</h2>
+            <p>По вопросам сотрудничества, идей или багов пишите в наши каналы.</p>
+            <div class="social-links">
+                <a href="https://discord.gg/nd88z7Cfj" target="_blank"><i class="fab fa-discord"></i> Discord</a>
+                <a href="#"><i class="fab fa-telegram"></i> Telegram</a>
+                <a href="#"><i class="fab fa-youtube"></i> YouTube</a>
+            </div>
+            <p class="copyright">© 2026 MrSaint Team. Не связаны с Majestic RP.</p>
+        </div>
+    </section>
+
+    <script>
+        function toggleMenu() {
+            const nav = document.getElementById('mainNav');
+            nav.classList.toggle('active');
+        }
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href === "#") return;
+                e.preventDefault();
+                const target = document.querySelector(href);
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    const nav = document.getElementById('mainNav');
+                    if (nav.classList.contains('active')) nav.classList.remove('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+<div class="social-links">
+    
